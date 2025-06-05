@@ -12,6 +12,16 @@ def get_char_count(text):
             charcount[f"{i}"] =1
     return charcount
 
-def
-    
-    
+def sortlist(chars):
+    report = []
+    for char, count in chars.items():
+        if char.isalpha():
+            test = {
+                "char": char,
+                "num": count}
+            report.append(test)
+    report.sort(reverse = True, key=sort_on)
+    return report
+
+def sort_on(dict):
+    return dict["num"]
