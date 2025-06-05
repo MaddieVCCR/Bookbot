@@ -15,4 +15,7 @@ def main():
     except Exception as e:
         print(f"error: {e}")
 
+def htmlremover()
+    pass
+
 main()
