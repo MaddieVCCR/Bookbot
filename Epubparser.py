@@ -6,16 +6,20 @@ from collections import Counter
 
 def main():
     epub_path = sys.argv[1]
+    xhtmllist = []
     try:
         with zipfile.ZipFile(epub_path, "r") as epub:
-            files = epub.namelist()
+            files = epub.namelist()  #Epub.namelist is a list of every file in the epub., we are creating a new list to run through
             print(f"contents of {epub_path}:")
             for file in files:
-                print(file)
+                if file.endswith(".xhtml"):
+                    file.replace(".xhtml",".txt")
+                    xhtmllist.append(file)
+                    print(file)
     except Exception as e:
         print(f"error: {e}")
 
-def htmlremover()
+def htmlremover():
     pass
 
 main()
