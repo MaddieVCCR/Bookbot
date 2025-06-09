@@ -13,9 +13,9 @@ def main():
             print(f"contents of {epub_path}:")
             for file in files:
                 if file.endswith(".xhtml"):
-                    file.replace(".xhtml",".txt")
-                    xhtmllist.append(file)
-                    print(file)
+                    newfile = file.replace(".xhtml",".txt")
+                    xhtmllist.append(newfile)
+                    print(newfile)
     except Exception as e:
         print(f"error: {e}")
 
