@@ -6,6 +6,20 @@ from collections import Counter
 from io import StringIO
 import os
 from os.path import expanduser, join
+from bs4 import BeautifulSoup
+
+def htmlremover(txt_path):
+    with open(txt_path, "r", encoding="utf-8") as file:
+        soup = BeautifulSoup(file.read(), 'html.parser')
+    
+    # Remove script/style tags
+    for tag in soup(['script', 'style']):
+        tag.decompose()
+    
+    # Get clean text
+    text = soup.get_text(separator=' ', strip=True)
+    
+    return StringIO(text)
 
 
 def main():
@@ -36,27 +50,19 @@ def main():
                     
                     with open(txt_path, "w", encoding="utf-8") as outfile:
                         outfile.write(content)
-                    
-                    print(f"Created: {txt_path}")  # Fixed variable name
+                        print(f"Created: {txt_path}")  # Fixed variable name
+
+                    cleaned_content = htmlremover(txt_path)
+                    with open(txt_path, "w", encoding="utf-8") as outfile:
+                        outfile.write(cleaned_content.read())
+
+
+
 
     except zipfile.BadZipFile:
         print(f"Error: {epub_path} is not a valid EPUB file")
     except Exception as e:
         print(f"Error: {str(e)}")
-
-def htmlremover(txt):
-    print(f"{txt} this is part of htmlremvor")
-    with open(txt, "r", encoding="utf-8") as file:
-        content = file.read()
-
-    content = re.sub(r'<[^>]+>.*?</[^>]+>', '', content, flags=re.DOTALL)
-    content = re.sub(r'<[^>]+/>', '', content)
-    content = re.sub(r'<[^>]+>', '', content)
-
-    cleaned_file_obj = StringIO(content)
-    cleaned_file_obj.seek(0)
-
-    return cleaned_file_obj
 
 
 
