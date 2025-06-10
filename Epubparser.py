@@ -12,26 +12,37 @@ def main():
     if len(sys.argv) < 2:
         print("Usage: python3 epubparser.py <epub_path>")
         return
-    else:
-        epub_path = sys.argv[1]
-        output_base = expanduser("~/projects/Bookbot/books/temp") #expands ~ to home directory
-        os.makedirs(output_base, exist_ok=True) #check if the path exists and make it if not
-        try:
-            with zipfile.ZipFile(epub_path, "r") as epub:
-                print(f"contents of {epub_path}:")
-                for file in epub.namelist(): #iterating through every epub file
-                    if file.endswith(".xhtml"): #Here, we are taking every xhtml file, saving it as .txt file and then adding the path to a list
-                        base,_ = os.path.splitext(file)
-                        txt_file = os.path.basename(base) + ".txt" #getting just the file name
-                        txt_path = join(output_base, f"{base}.txt")
-                        print("test")
-                        with epub.open(file) as infile:
-                            content = infile.read().decode('utf-8')
-                        with open(txt_path, "w", encoding="utf-8") as outfile:
-                            outfile.write(content)
-                            print(newfile)
-        except Exception as e:
-            print(f"error: {e}")
+
+    epub_path = sys.argv[1]
+    output_base = expanduser("~/projects/Bookbot/books/temp")
+    os.makedirs(output_base, exist_ok=True)
+
+    try:
+        with zipfile.ZipFile(epub_path, "r") as epub:
+            print(f"Contents of {epub_path}:")
+            for file in epub.namelist():
+                if file.endswith(".xhtml"):
+                    # Get base filename without extension
+                    base = os.path.splitext(os.path.basename(file))[0]
+                    
+                    # Create output path
+                    txt_path = join(output_base, f"{base}.txt")
+                    
+                    print(f"Processing: {file} -> {txt_path}")  # Better debug output
+                    
+                    # Read and write content
+                    with epub.open(file) as infile:
+                        content = infile.read().decode('utf-8')
+                    
+                    with open(txt_path, "w", encoding="utf-8") as outfile:
+                        outfile.write(content)
+                    
+                    print(f"Created: {txt_path}")  # Fixed variable name
+
+    except zipfile.BadZipFile:
+        print(f"Error: {epub_path} is not a valid EPUB file")
+    except Exception as e:
+        print(f"Error: {str(e)}")
 
 def htmlremover(txt):
     print(f"{txt} this is part of htmlremvor")
