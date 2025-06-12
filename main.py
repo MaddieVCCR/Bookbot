@@ -11,7 +11,18 @@ def main():
     if book_path.endswith(".epub"):
         epupparser(book_path)
         epubfilelister = os.listdir("books/temp")
-        print(epubfilelister)
+        epubfilepath = os.getcwd()
+        totalwordcount = 0
+        for file in epubfilelister:
+            filepath = os.path.join("books/temp", file)
+            text = get_book_text(filepath)
+            num_words = get_num_words(text)
+            print(f"Found {num_words} total words")
+            totalwordcount += num_words
+            if os.path.exists(filepath):
+                os.remove(filepath)
+        print(f"total words = {totalwordcount}")
+            
     elif book_path.endswith(".txt"):  
         text = get_book_text(book_path)
         num_words = get_num_words(text)
