@@ -22,12 +22,12 @@ def htmlremover(txt_path):
     return StringIO(text)
 
 
-def main():
+def epupparser(textpath):
     if len(sys.argv) < 2:
         print("Usage: python3 epubparser.py <epub_path>")
         return
 
-    epub_path = sys.argv[1]
+    epub_path = textpath
     script_dir = os.path.dirname(os.path.abspath(__file__))
     output_base = os.path.join(script_dir, "books", "temp")
     os.makedirs(output_base, exist_ok=True)
@@ -64,7 +64,3 @@ def main():
         print(f"Error: {epub_path} is not a valid EPUB file")
     except Exception as e:
         print(f"Error: {str(e)}")
-
-
-
-main()
