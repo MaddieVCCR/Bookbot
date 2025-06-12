@@ -28,7 +28,8 @@ def main():
         return
 
     epub_path = sys.argv[1]
-    output_base = expanduser("~/projects/Bookbot/books/temp")
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    output_base = os.path.join(script_dir, "books", "temp")
     os.makedirs(output_base, exist_ok=True)
 
     try:
